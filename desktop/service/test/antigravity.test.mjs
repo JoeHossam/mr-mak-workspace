@@ -34,7 +34,7 @@ test('Antigravity command preserves permissions, explicit effort and an exact co
   try {
     for (const bypass of [true, false]) {
       const command = terminalCommand('antigravity', { bypass, resumeId: idA, effort: 'xhigh', antigravityLog: path.join(bin, "owner's log.txt") });
-      const launch = process.platform === 'win32' ? Buffer.from(command.args.at(-1), 'base64').toString('utf16le') : command.args.join(' ');
+      const launch = process.platform === 'win32' ? command.args.at(-1) : command.args.join(' ');
       assert.match(launch, /--conversation/); assert.ok(launch.includes(idA));
       assert.match(launch, /--effort.*xhigh/); assert.match(launch, /--log-file/);
       assert.equal(launch.includes('--dangerously-skip-permissions'), bypass);

@@ -10,7 +10,8 @@ export function wrapCommand(file, args = []) {
   if (!isWindows || /\.exe$/i.test(file)) return { file, args };
   const quote = value => "'" + value.replaceAll("'", "''") + "'";
   const script = `[Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new(); & ${[file, ...args].map(quote).join(' ')}; exit $LASTEXITCODE`;
-  return { file: shellCommand().file, args: ['-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', Buffer.from(script, 'utf16le').toString('base64')] };
+  // Not -EncodedCommand: antivirus engines freeze PowerShell launched that way, leaving chats blank.
+  return { file: shellCommand().file, args: ['-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', script] };
 }
 
 export const AGENTS = [

@@ -99,7 +99,7 @@ test('OpenCode launch flags preserve native permissions and never pass Codex rea
   try {
     for (const major of [1, 2]) for (const bypass of [false, true]) {
       const command = terminalCommand('opencode', { opencodeMajor: major, bypass, resumeId: id, effort: 'xhigh' });
-      const launch = process.platform === 'win32' ? Buffer.from(command.args.at(-1), 'base64').toString('utf16le') : command.args.join(' ');
+      const launch = process.platform === 'win32' ? command.args.at(-1) : command.args.join(' ');
       assert.match(launch, /--session/); assert.ok(launch.includes(id));
       assert.equal(launch.includes('--standalone'), major === 2);
       assert.equal(launch.includes('--auto'), bypass);

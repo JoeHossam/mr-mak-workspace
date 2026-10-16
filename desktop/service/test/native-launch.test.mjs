@@ -27,8 +27,24 @@ test('Windows command shims still use the full PowerShell path and quote literal
   for (const extension of ['cmd', 'bat', 'ps1']) {
     const command = wrapCommand(`C:/tools/agent.${extension}`, ["owner's folder", '$(do-not-execute)']);
     assert.equal(command.file, shellCommand().file);
-    const script = Buffer.from(command.args.at(-1), 'base64').toString('utf16le');
+    // Antivirus engines freeze PowerShell started with -EncodedCommand, which left new chats blank.
+    assert.ok(!command.args.includes('-EncodedCommand'));
+    assert.equal(command.args.at(-2), '-Command');
+    const script = command.args.at(-1);
     assert.ok(script.includes("'owner''s folder'"));
     assert.ok(script.includes("'$(do-not-execute)'"));
   }
+});
+
+test('Windows command shims launch through the PowerShell wrapper with literal arguments', { skip: process.platform !== 'win32', timeout: 30000 }, async () => {
+  const folder = await mkdtemp(path.join(os.tmpdir(), "mrmak owner's shim-"));
+  const shim = path.join(folder, 'agent shim.cmd');
+  const script = path.join(folder, 'record arguments.mjs');
+  const output = path.join(folder, 'arguments.json');
+  await writeFile(shim, `@"${process.execPath}" %*\r\n`);
+  await writeFile(script, 'import fs from "node:fs"; fs.writeFileSync(process.argv[2], JSON.stringify(process.argv.slice(3)));');
+  const literals = ['two words', "owner's folder", '$(do-not-execute)', '--resume', '019a0000-1111-4222-8333-444455556666'];
+  const command = wrapCommand(shim, [script, output, ...literals]);
+  await promisify(execFile)(command.file, command.args, { cwd: folder, windowsHide: true, timeout: 20000 });
+  assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), literals);
 });
