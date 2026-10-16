@@ -13,6 +13,10 @@
         {
           "name": "Foundation design",
           "path": "foundation.md"
+        },
+        {
+          "name": "Combat prototype plan",
+          "path": "combat-prototype-plan.md"
         }
       ],
       "status": "active",

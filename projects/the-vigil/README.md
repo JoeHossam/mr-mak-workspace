@@ -14,8 +14,8 @@ working on this project, and keep its hard rules in every asset and scene.
 
 ## Next implementation
 
-Plan the combat prototype: one arena, the hero, a group of soldiers and one
-champion duel, with the parry, Momentum, Resolve, two Styles and Momentum Surge,
-plus early spikes on runtime terrain deformation, physics at scale and Motion
-Matching responsiveness. Put the Unreal project and editable source assets in
-this folder when implementation starts.
+Build the combat prototype from the
+[plan](../../workspace/2026-10-17_the-vigil/combat-prototype-plan.md). The Unreal
+project lives outside this repository at `C:\Users\Joe\source\ue\dream` (UE 5.8,
+C++). Work on it in a Claude chat started in that folder, which loads its Unreal
+MCP, and use `/add-dir` to give that chat this workspace.
