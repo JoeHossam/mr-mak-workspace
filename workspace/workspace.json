@@ -1,6 +1,25 @@
 {
   "entities": [
     {
+      "id": "the-vigil",
+      "title": "The Vigil",
+      "description": "A UE5 sword-combat game: the foundation design for its story, world, enemies, parry-centered combat, movement and progression.",
+      "type": "group",
+      "category": "project",
+      "created": "2026-10-17",
+      "updated": "2026-10-17",
+      "folder": "2026-10-17_the-vigil",
+      "steps": [
+        {
+          "name": "Foundation design",
+          "path": "foundation.md"
+        }
+      ],
+      "status": "active",
+      "pinned": false,
+      "defaultStep": 0
+    },
+    {
       "id": "my-dream-game",
       "title": "My Dream Game",
       "description": "Mr. Mak 64: a small Sky Islands adventure, with character studies, world layouts and a development board.",
